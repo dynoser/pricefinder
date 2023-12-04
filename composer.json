@@ -1,0 +1,18 @@
+{
+    "name": "dynoser/pricefinder",
+    "description": "Searches a string for values similar to price and returns an array of those",
+    "keywords": ["price", "parsing"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "AlexanderJer",
+            "email": "alexierusalim@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "classmap": ["src/PriceFinder.php"]
+    }
+}
