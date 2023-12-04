@@ -41,6 +41,19 @@ class PriceFinder
         'AED' => 'د.إ', // Дирхам (ОАЭ)
         'SAR' => 'ر.س', // Саудовский риял
         'QAR' => 'ر.ق', // Катарский риал
+        'PKR' => '₨',  // Пакистанская рупия
+        'BDT' => '৳',   // Бангладешская така
+        'VND' => '₫',   // Вьетнамский донг
+        'EGP' => '£',   // Египетский фунт
+        'IRR' => '﷼',   // Иранский риал
+        'COP' => 'Col$',// Колумбийский песо
+        'ARS' => 'AR$', // Аргентинский песо
+        'CLP' => 'CLP$',// Чилийский песо
+        'VEF' => 'Bs', // Венесуэльский боливар (старый)
+        'VES' => 'Bs.S',// Венесуэльский боливар (новый)
+        'ZWL' => 'Z$',  // Зимбабвийский доллар
+        'NGN' => '₦',  // Нигерийская найра
+        'GHS' => '₵',  // Ганский седи
         'BYN' => 'Br',  // Белорусский рубль
         'KZT' => '₸',   // Казахский тенге
         'SEK' => 'SEK', // Шведская крона
@@ -48,16 +61,27 @@ class PriceFinder
         'DKK' => 'DKK', // Датская крона
     ];
     
+    public $prefixesArr = [
+        'Цена',
+        'Ціна', 'Price', 'Precio', 'Preis', 'Prix', 'Preço', '価格', '价格', 'قیمت', 'मूल्य',
+        'Fiyat',
+        'Giá',
+        'Harga',
+        '가격',
+        'तका',    // Хинди (Индия)
+        'Цэнь',  // Белорусский (Беларусь)
+        'Kaina', // Литовский (Литва)
+        'Cena',  // Чешский/Словацкий (Чехия/Словакия)
+        'Pris',  // Шведский/Норвежский (Швеция/Норвегия)
+        'Preț',  // Румынский (Румыния)
+    ];
+
     public $currAddArr = [
         'РУБ' => 'RUB',
         'ГРН' => 'UAH',
         'ГРИВ' => 'UAH',
     ];
 
-    
-    public $prefixesArr = [
-        'Цена', 'Ціна', 'Price', 'Precio', 'Preis', 'Prix', 'Preço', '価格', '价格', 'قیمت', 'मूल्य',
-    ];
     public $suffixesArr = [];
 
     public $escapedPrefixes = '';
@@ -90,7 +114,7 @@ class PriceFinder
         $this->upperSumSuffixes = '';
     }
 
-    function findPrices($string) {
+    function findPrices($srcString, $currencyRequired = true) {
         if (!$this->escapedPrefixes) {
             $this->escapedPrefixes = \array_map(function($item) { return \preg_quote($item, '/'); }, $this->prefixesArr);
         }
@@ -107,7 +131,7 @@ class PriceFinder
         $pattern = '/(' . implode('|', $this->escapedPrefixes) . ')?[:\=\-]?\s*'. $this->middleReg .'\s*(' . implode('|', $this->escapedSuffixes) . ')?/iu';
 
         $matches = [];
-        \preg_match_all($pattern, $string, $matches, \PREG_SET_ORDER | \PREG_OFFSET_CAPTURE);
+        \preg_match_all($pattern, $srcString, $matches, \PREG_SET_ORDER | \PREG_OFFSET_CAPTURE);
 
         $results = [];
         foreach ($matches as $match) {
@@ -118,14 +142,17 @@ class PriceFinder
             $inPref =             $prefix && (false !== \strpos($this->upperSumPrefixes, ' ' . $upPrefix . ' ')); 
             $inSuff = !$inPref && $suffix && (false !== \strpos($this->upperSumSuffixes, ' ' . $upSuffix . ' '));
             if ($inPref || $inSuff) {
-                $results[] = [
-                    'full_match' => $match[0][0],
-                    'digits' => \preg_replace('/\D/', '', $match[0][0]),
-                    'currency' => $this->currencyDetect($upPrefix, $prefix, $upSuffix, $suffix),
-                    'prefix' => $prefix,
-                    'suffix' => $suffix,
-                    'match_position' => $match[0][1],
-                ];
+                $currency = $this->currencyDetect($upPrefix, $prefix, $upSuffix, $suffix);
+                if (!$currencyRequired || $currency) {
+                    $results[] = [
+                        'full_match' => $match[0][0],
+                        'digits' => \preg_replace('/[^\d.]/', '', $match[0][0]),
+                        'currency' => $currency,
+                        'prefix' => $prefix,
+                        'suffix' => $suffix,
+                        'match_position' => $match[0][1],
+                    ];
+                }
             }
         }
 
