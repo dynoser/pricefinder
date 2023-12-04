@@ -104,7 +104,7 @@ class PriceFinder
             $this->upperSumSuffixes = ' ' . self::mbStrToUpper(\implode(' ', $this->suffixesArr)) . ' ';
         }
 
-        $pattern = '/(' . implode('|', $this->escapedPrefixes) . ')?[:]?\s*'. $this->middleReg .'\s*(' . implode('|', $this->escapedSuffixes) . ')?/iu';
+        $pattern = '/(' . implode('|', $this->escapedPrefixes) . ')?[:\=\-]?\s*'. $this->middleReg .'\s*(' . implode('|', $this->escapedSuffixes) . ')?/iu';
 
         $matches = [];
         \preg_match_all($pattern, $string, $matches, \PREG_SET_ORDER | \PREG_OFFSET_CAPTURE);
@@ -120,11 +120,11 @@ class PriceFinder
             if ($inPref || $inSuff) {
                 $results[] = [
                     'full_match' => $match[0][0],
-                    'match_position' => $match[0][1],
                     'digits' => \preg_replace('/\D/', '', $match[0][0]),
                     'currency' => $this->currencyDetect($upPrefix, $prefix, $upSuffix, $suffix),
                     'prefix' => $prefix,
-                    'suffix' => $suffix
+                    'suffix' => $suffix,
+                    'match_position' => $match[0][1],
                 ];
             }
         }
