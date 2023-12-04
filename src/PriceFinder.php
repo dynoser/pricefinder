@@ -80,9 +80,12 @@ class PriceFinder
         'РУБ' => 'RUB',
         'ГРН' => 'UAH',
         'ГРИВ' => 'UAH',
+        'ДОЛ' => 'USD',
+        'ЕВР' => 'EUR',
     ];
 
     public $suffixesArr = [];
+    public $suffixBreakChars = " .,;:!*(-+=){}[]\n\r\t";
 
     public $escapedPrefixes = '';
     public $escapedSuffixes = '';
@@ -144,13 +147,18 @@ class PriceFinder
             if ($inPref || $inSuff) {
                 $currency = $this->currencyDetect($upPrefix, $prefix, $upSuffix, $suffix);
                 if (!$currencyRequired || $currency) {
+                    $matchPos  = $match[0][1];
+                    $full_match = $match[0][0];
+                    $posAfterMatch = $matchPos + \strlen($full_match);
+                    $add_to_full_match = \substr($srcString, $posAfterMatch, \strcspn($srcString, $this->suffixBreakChars, $posAfterMatch));
+                    $full_match .= $add_to_full_match;
                     $results[] = [
-                        'full_match' => $match[0][0],
+                        'full_match' => \trim($full_match),
                         'digits' => \preg_replace('/[^\d.]/', '', $match[0][0]),
                         'currency' => $currency,
                         'prefix' => $prefix,
-                        'suffix' => $suffix,
-                        'match_position' => $match[0][1],
+                        'suffix' => $suffix . $add_to_full_match,
+                        'match_position' => $matchPos,
                     ];
                 }
             }
