@@ -55,7 +55,7 @@ class PriceFinder
     public $lowerSumPrefixes = '';
     public $lowerSumSuffixes = '';
 
-    public $middleReg = '(\d{1,3}(?:[\s,\.]\d{3})*|\d+)(\.|\,)?(\d{2})?';
+    public $middleReg  = '(\d{1,3}(?:[\s,\.]\d{3})*|\d+)(\.|\,)?(\d{1,2})?';
     
     public function __construct($addPrefixesArr = [], $addSuffixesArr = []) {
         $currCodesArr  = \array_keys($this->currenciesArr);
