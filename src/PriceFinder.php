@@ -156,8 +156,8 @@ class PriceFinder
                         'full_match' => \trim($full_match),
                         'digits' => \preg_replace('/[^\d.]/', '', $match[0][0]),
                         'currency' => $currency,
-                        'prefix' => $prefix,
-                        'suffix' => $suffix . $add_to_full_match,
+                        //'prefix' => $prefix,
+                        //'suffix' => $suffix . $add_to_full_match,
                         'match_position' => $matchPos,
                     ];
                 }
