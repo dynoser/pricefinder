@@ -1,0 +1,13 @@
+{
+    "filePatterns": [
+        "*"
+    ],
+    "excludePatterns": [
+        "/nbproject/",
+        "/index.php",
+        "/README.md"
+    ],
+    "maxFilesCnt": 100,
+    "getHidden": false,
+    "maxSizeBytes": 1048576
+}

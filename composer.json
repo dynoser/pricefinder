@@ -1,5 +1,6 @@
 {
     "name": "dynoser/pricefinder",
+    "version": "1.0.1",
     "description": "Searches a string for values similar to price and returns an array of those",
     "keywords": ["price", "parsing"],
     "license": "Apache-2.0",
@@ -14,5 +15,10 @@
     },
     "autoload": {
         "classmap": ["src/PriceFinder.php"]
+    },
+    "extra": {
+        "dyno-nsmap": {
+            "dynoser\\textworks\\PriceFinder": "@/dynoser/pricefinder/src/*"
+        }
     }
 }
