@@ -1,3 +1,3 @@
-hashsig: f6da97ed1ec47c2a21eaf83a8ae10945435ae2ab372954e7ec835e8e9bd2916c ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: W+GsFQOMybMFv//Sls4kNmtSJDopwythSd3o92F2a8tkCJ/G0VGMPz42DJWbKDwiT+wUrNxxLbNZgWZEY1ajBQ==
-composer.json: 23d7beb9b66661f01922374790aa3161bec27e2d7e9e7ccc6f4f9a3e5d1399cf 627
+hashsig: 57f6d514e5c064dd99b39dd7086af1391c29c44338ca4e0f340bb0e35bbeaaf9 ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: 5Mw2LdUEaxC8pDu1YDBCXwXCoKtcrz75VgKHs8zbIYXuUrJInS1AoutsVcikk8gUecDga3aOVzpKnStPDy57DQ==
+composer.json: b5aa564c0e511f132dac3bca76160d53724f8dfce59ddf28cb4390355f2decd6 627
 src/PriceFinder.php: 57a836d8f0bb21a3af676616d8a5661fac18dbdaebcfc014e701b8719a964b82 8892
